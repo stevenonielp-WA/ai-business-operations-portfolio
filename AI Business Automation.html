@@ -1,0 +1,505 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>AI Business Automation</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: caso de estudio en una columna ancha. Hero + flujo clicable + demo en vivo + panel de leads + prompt + calculadora + stack. */
+:root{
+  --bg:#F2F4F7; --surface:#FFFFFF; --surface2:#E9EDF2; --fg:#0F1B2D; --muted:#566377; --line:#D5DBE3;
+  --accent:#E23B68; --accent-fg:#FFFFFF; --accent-soft:#FBE3EA;
+  --hot:#D6452B; --hot-soft:#FBE4DE; --warm:#B7791F; --warm-soft:#F8EBCF; --cold:#2F6FB5; --cold-soft:#DDEAF7;
+  --ok:#1F8A5B;
+  --f-display:'Space Grotesk',system-ui,sans-serif; --f-body:'Inter',system-ui,sans-serif; --f-mono:'IBM Plex Mono',ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0C1422; --surface:#142033; --surface2:#1B2A41; --fg:#E8EDF4; --muted:#9AA8BC; --line:#26364F;
+  --accent:#F0577F; --accent-fg:#1A0A10; --accent-soft:#3A1826;
+  --hot:#F27A62; --hot-soft:#3D1D17; --warm:#E3B25A; --warm-soft:#3A2D12; --cold:#6FA8E6; --cold-soft:#15283F; --ok:#4FC28F;
+  color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0C1422; --surface:#142033; --surface2:#1B2A41; --fg:#E8EDF4; --muted:#9AA8BC; --line:#26364F;
+  --accent:#F0577F; --accent-fg:#1A0A10; --accent-soft:#3A1826;
+  --hot:#F27A62; --hot-soft:#3D1D17; --warm:#E3B25A; --warm-soft:#3A2D12; --cold:#6FA8E6; --cold-soft:#15283F; --ok:#4FC28F;
+  color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-block:0 64px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1080px;margin:0 auto}
+h1,h2,h3{font-family:var(--f-display);line-height:1.12;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.5rem,3.2vw,2rem);letter-spacing:-.01em}
+h3{font-size:1.05rem}
+p{margin:0}
+.eyebrow{font-family:var(--f-mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+section{padding-top:64px}
+.sec-head{display:grid;gap:8px;margin-bottom:24px;max-width:62ch}
+.sec-head p{color:var(--muted)}
+/* hero */
+.hero{padding-top:48px;display:grid;gap:24px}
+.hero h1{font-size:clamp(2.1rem,6vw,3.9rem);letter-spacing:-.025em;max-width:18ch}
+.hero h1 em{font-style:normal;color:var(--accent)}
+.hero .lead{font-size:1.1rem;color:var(--muted);max-width:60ch}
+.meta{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-family:var(--f-mono);font-size:.76rem;padding:4px 10px;border:1px solid var(--line);border-radius:99px;background:var(--surface);color:var(--muted)}
+.chip.sim{border-color:var(--accent);color:var(--accent);background:var(--accent-soft)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-top:8px}
+.kpi{padding:16px;border-top:2px solid var(--fg)}
+.kpi b{display:block;font-family:var(--f-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.kpi span{color:var(--muted);font-size:.9rem}
+/* flow */
+.flow-scroll{overflow-x:auto;padding-bottom:8px}
+.flow{display:flex;align-items:stretch;gap:0;min-width:860px}
+.node{flex:1 1 0;min-width:0;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:14px 12px;text-align:left;cursor:pointer;
+  font:inherit;color:inherit;display:grid;gap:6px;align-content:start;transition:border-color .2s,box-shadow .2s,background .2s}
+.node:hover{border-color:var(--accent)}
+.node:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.node .n-tag{font-family:var(--f-mono);font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.node strong{font-family:var(--f-display);font-size:.98rem;line-height:1.2}
+.node small{color:var(--muted);font-size:.8rem;line-height:1.4}
+.node[aria-pressed="true"]{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent-soft);background:var(--surface)}
+.node.run{background:var(--accent-soft);border-color:var(--accent)}
+.node.done{border-color:var(--ok)}
+.link{flex:0 0 22px;display:flex;align-items:center;justify-content:center;color:var(--muted)}
+.link svg{width:22px;height:12px}
+.detail{margin-top:16px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:20px;display:grid;gap:16px;grid-template-columns:1.3fr 1fr}
+.detail h3{margin-bottom:6px}
+.detail .kv{display:grid;gap:10px}
+.kv div{font-size:.88rem}
+.kv dt,.kv .k{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);display:block}
+pre.code{margin:0;background:var(--surface2);border-radius:8px;padding:12px;font-family:var(--f-mono);font-size:.78rem;line-height:1.55;overflow-x:auto;white-space:pre}
+/* demo */
+.demo{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:16px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:grid;gap:14px;align-content:start;min-width:0}
+label,.lbl{font-family:var(--f-mono);font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted)}
+.samples{display:flex;flex-wrap:wrap;gap:8px}
+button{font:inherit;color:inherit}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 12px;cursor:pointer;font-size:.88rem}
+.btn:hover{border-color:var(--accent)}
+.btn:focus-visible,select:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:var(--accent);font-weight:600;padding:11px 16px}
+.btn.primary:hover{filter:brightness(1.06)}
+.btn[aria-pressed="true"]{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+textarea,select,input[type=text],input[type=number]{width:100%;font:inherit;background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:8px;padding:10px}
+textarea{min-height:104px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.out{display:grid;gap:12px}
+.out .empty{color:var(--muted);font-size:.92rem;padding:8px 0}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:99px;font-size:.78rem;font-weight:600;font-family:var(--f-mono)}
+.badge::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.b-hot{color:var(--hot);background:var(--hot-soft)}
+.b-warm{color:var(--warm);background:var(--warm-soft)}
+.b-cold{color:var(--cold);background:var(--cold-soft)}
+.score{display:flex;align-items:center;gap:12px}
+.bar{flex:1;height:8px;background:var(--surface2);border-radius:99px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);width:0;transition:width .5s}
+.score b{font-family:var(--f-display);font-size:1.6rem;font-variant-numeric:tabular-nums;min-width:2.2ch;text-align:right}
+.reply{background:var(--surface2);border-radius:10px;padding:12px 14px;font-size:.92rem}
+.reply .k{display:block;margin-bottom:4px}
+.timeline{display:grid;gap:8px;margin:0;padding:0;list-style:none}
+.timeline li{display:grid;grid-template-columns:76px 1fr;gap:10px;font-size:.9rem;align-items:baseline}
+.timeline time{font-family:var(--f-mono);font-size:.76rem;color:var(--accent)}
+.reasons{display:flex;flex-wrap:wrap;gap:6px}
+.reasons span{font-family:var(--f-mono);font-size:.74rem;background:var(--surface2);border-radius:6px;padding:3px 8px}
+/* table */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tbl-wrap{overflow-x:auto;background:var(--surface);border:1px solid var(--line);border-radius:12px}
+table{width:100%;border-collapse:collapse;min-width:760px;font-size:.9rem}
+th{font-family:var(--f-mono);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);text-align:left;padding:12px 14px;border-bottom:1px solid var(--line);font-weight:500}
+td{padding:12px 14px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;font-family:var(--f-mono)}
+td .sub{color:var(--muted);font-size:.8rem}
+tr.new{animation:fresh 1.4s ease-out}
+@keyframes fresh{from{background:var(--accent-soft)}to{background:transparent}}
+.summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.sum{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px}
+.sum b{display:block;font-family:var(--f-display);font-size:1.5rem;font-variant-numeric:tabular-nums}
+.sum span{font-size:.82rem;color:var(--muted)}
+/* prompt */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.copyrow{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+/* calc */
+.calc{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.result{display:grid;gap:12px}
+.big{font-family:var(--f-display);font-size:clamp(2.2rem,6vw,3.4rem);letter-spacing:-.02em;line-height:1;font-variant-numeric:tabular-nums}
+.note{font-size:.82rem;color:var(--muted)}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.rng{display:grid;gap:4px}
+.rng .top{display:flex;justify-content:space-between;font-size:.9rem}
+.rng .top b{font-family:var(--f-mono)}
+/* stack */
+.stack{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.tool{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:grid;gap:4px}
+.tool .k{color:var(--accent)}
+.tool p{font-size:.9rem;color:var(--muted)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px 24px;margin-top:8px}
+.skill{border-top:1px solid var(--line);padding-top:10px;font-size:.92rem}
+.skill b{display:block;font-family:var(--f-display)}
+.skill span{color:var(--muted)}
+footer{margin-top:64px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+@media (max-width:820px){
+  .detail,.demo,.two,.calc{grid-template-columns:1fr}
+}
+@media (max-width:480px){.row2{grid-template-columns:1fr}.timeline li{grid-template-columns:64px 1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+
+<header class="hero">
+  <div class="meta"><span class="eyebrow">Proyecto 3 · Portafolio de automatización</span></div>
+  <h1>Cada mensaje que llega, <em>atendido y clasificado</em> en menos de un minuto.</h1>
+  <p class="lead">AI Business Automation es un flujo en n8n que capta prospectos desde WhatsApp, Instagram y formularios, usa IA para entender qué quieren y qué tan listos están, los registra en un CRM y programa el seguimiento sin que nadie lo recuerde.</p>
+  <div class="meta">
+    <span class="chip">n8n</span><span class="chip">WhatsApp Cloud API</span><span class="chip">Clasificación con IA</span><span class="chip">Google Sheets como CRM</span><span class="chip">Google Calendar</span>
+    <span class="chip sim">Caso de demostración con datos ficticios</span>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><b>5 canales → 1 embudo</b><span>Todo prospecto entra al mismo registro, sin importar de dónde escribió.</span></div>
+    <div class="kpi"><b>3 niveles de prioridad</b><span>Caliente, tibio y frío, con una acción distinta para cada uno.</span></div>
+    <div class="kpi"><b>0 seguimientos olvidados</b><span>Los recordatorios a 1, 3 y 7 días los dispara el flujo, no una persona.</span></div>
+  </div>
+</header>
+
+<section id="flujo">
+  <div class="sec-head">
+    <span class="eyebrow">El flujo</span>
+    <h2>Seis pasos, de un mensaje suelto a un prospecto con dueño y fecha</h2>
+    <p>Toca cada paso para ver qué hace, qué nodo de n8n lo ejecuta y qué datos recibe y entrega.</p>
+  </div>
+  <div class="flow-scroll"><div class="flow" id="flow" role="group" aria-label="Pasos del flujo"></div></div>
+  <div class="detail" id="detail" aria-live="polite"></div>
+</section>
+
+<section id="demo">
+  <div class="sec-head">
+    <span class="eyebrow">Demo en vivo</span>
+    <h2>Escribe un mensaje y mira cómo lo procesa el flujo</h2>
+    <p>Elige un ejemplo o escribe el tuyo. La demo aplica las mismas reglas de puntaje que el prompt de clasificación y recorre cada paso del flujo.</p>
+  </div>
+  <div class="demo">
+    <div class="panel">
+      <span class="lbl">Ejemplos</span>
+      <div class="samples" id="samples"></div>
+      <div class="row2">
+        <div><label for="name">Nombre</label><input type="text" id="name" value="Laura M."></div>
+        <div><label for="channel">Canal</label>
+          <select id="channel"><option>WhatsApp</option><option>Instagram</option><option>Formulario web</option><option>Facebook</option><option>Correo</option></select></div>
+      </div>
+      <div><label for="vertical">Tipo de negocio que recibe el mensaje</label>
+        <select id="vertical"><option>Clínica estética</option><option>Inmobiliaria</option><option>Restaurante</option></select></div>
+      <div><label for="msg">Mensaje del prospecto</label>
+        <textarea id="msg">Hola, quiero agendar una limpieza facial para esta semana. ¿Cuánto cuesta y tienen cupo mañana?</textarea></div>
+      <button class="btn primary" id="run" type="button">Procesar con el flujo</button>
+    </div>
+    <div class="panel">
+      <span class="lbl">Resultado</span>
+      <div class="out" id="out"><p class="empty">Aquí aparecerá la clasificación, la respuesta automática y el seguimiento programado.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="panel">
+  <div class="sec-head">
+    <span class="eyebrow">El CRM que se llena solo</span>
+    <h2>Panel de prospectos</h2>
+    <p>Cada mensaje procesado en la demo se agrega aquí. En el proyecto real, esta vista es una hoja de Google Sheets que el equipo comercial abre cada mañana.</p>
+  </div>
+  <div class="summary" id="summary"></div>
+  <div class="filters" id="filters" role="group" aria-label="Filtrar por prioridad"></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Prospecto</th><th>Canal</th><th>Intención</th><th>Puntaje</th><th>Prioridad</th><th>Próxima acción</th></tr></thead>
+    <tbody id="rows"></tbody>
+  </table></div>
+</section>
+
+<section id="ia">
+  <div class="sec-head">
+    <span class="eyebrow">La parte de IA</span>
+    <h2>Un prompt de clasificación con salida estructurada</h2>
+    <p>El modelo no conversa: recibe el mensaje y devuelve un JSON que n8n puede leer y enrutar. Así el resultado es predecible y se puede auditar.</p>
+  </div>
+  <div class="two">
+    <div class="panel">
+      <div class="copyrow"><span class="lbl">Prompt del nodo de IA</span><button class="btn" type="button" data-copy="prompt">Copiar</button></div>
+      <pre class="code" id="prompt"></pre>
+    </div>
+    <div class="panel">
+      <div class="copyrow"><span class="lbl">Salida esperada (JSON)</span><button class="btn" type="button" data-copy="json">Copiar</button></div>
+      <pre class="code" id="json"></pre>
+      <p class="note">Si el JSON llega incompleto, el flujo reintenta una vez y, si falla, marca al prospecto como "revisar a mano" en lugar de perderlo.</p>
+    </div>
+  </div>
+</section>
+
+<section id="impacto">
+  <div class="sec-head">
+    <span class="eyebrow">Impacto estimado</span>
+    <h2>Calcula cuánto tiempo devuelve al equipo</h2>
+    <p>Es un escenario con tus propios números, no una métrica medida. Ajusta los valores a un negocio real.</p>
+  </div>
+  <div class="calc">
+    <div class="panel">
+      <div class="rng"><div class="top"><label for="c1">Prospectos por mes</label><b id="v1"></b></div><input type="range" id="c1" min="30" max="1000" step="10" value="200"></div>
+      <div class="rng"><div class="top"><label for="c2">Minutos de atención manual por prospecto</label><b id="v2"></b></div><input type="range" id="c2" min="3" max="20" step="1" value="8"></div>
+      <div class="rng"><div class="top"><label for="c3">Parte del trabajo que se automatiza</label><b id="v3"></b></div><input type="range" id="c3" min="30" max="90" step="5" value="70"></div>
+      <div class="rng"><div class="top"><label for="c4">Prospectos que hoy se pierden por responder tarde</label><b id="v4"></b></div><input type="range" id="c4" min="0" max="40" step="1" value="15"></div>
+    </div>
+    <div class="panel result">
+      <span class="lbl">Horas devueltas al equipo cada mes</span>
+      <div class="big" id="hours">0</div>
+      <p id="recover"></p>
+      <p class="note">Horas = prospectos × minutos × porcentaje automatizado ÷ 60. Los prospectos recuperados asumen que la respuesta inmediata rescata la mitad de los que hoy se pierden.</p>
+    </div>
+  </div>
+</section>
+
+<section id="stack">
+  <div class="sec-head">
+    <span class="eyebrow">Herramientas</span>
+    <h2>Stack y decisiones de diseño</h2>
+  </div>
+  <div class="stack">
+    <div class="tool"><span class="lbl k">Orquestación</span><h3>n8n</h3><p>Webhooks, ramas condicionales, esperas programadas y reintentos en un solo flujo visual.</p></div>
+    <div class="tool"><span class="lbl k">Canales</span><h3>WhatsApp Cloud API, Instagram, formularios</h3><p>Cada canal entra por un webhook y se convierte al mismo formato de datos.</p></div>
+    <div class="tool"><span class="lbl k">Inteligencia</span><h3>Modelo de lenguaje</h3><p>Clasifica intención, urgencia y prioridad, y redacta la primera respuesta.</p></div>
+    <div class="tool"><span class="lbl k">Registro</span><h3>Google Sheets</h3><p>CRM ligero que cualquier dueño de negocio sabe usar desde el primer día.</p></div>
+    <div class="tool"><span class="lbl k">Agenda</span><h3>Google Calendar</h3><p>Ofrece horarios libres y crea la cita cuando el prospecto confirma.</p></div>
+  </div>
+  <div class="skills">
+    <div class="skill"><b>Diseño de procesos</b><span>Traduje una operación comercial a pasos, reglas y excepciones.</span></div>
+    <div class="skill"><b>Ingeniería de prompts</b><span>Salida estructurada, criterios de puntaje y reintento ante errores.</span></div>
+    <div class="skill"><b>Integración de sistemas</b><span>Canales, IA, CRM y agenda conectados por datos normalizados.</span></div>
+    <div class="skill"><b>Pensamiento de negocio</b><span>Cada regla responde a una pregunta: quién llama primero y cuándo.</span></div>
+  </div>
+</section>
+
+<footer>
+  <span>Proyecto 3 de 3 · AI Business Automation · Vanta</span>
+  <span>Datos y prospectos ficticios, solo con fines de demostración.</span>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(id){return document.getElementById(id)};
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  /* ---------- Flow ---------- */
+  var steps = [
+    {tag:'Paso 1',title:'Captación',sub:'WhatsApp, Instagram, web',node:'Webhook / WhatsApp Trigger',
+      what:'Detecta cada mensaje nuevo sin importar el canal y lo entrega al flujo en el momento en que llega.',
+      inp:'Mensaje crudo, número o usuario, hora',out:'Evento con texto y canal de origen',
+      code:'POST /webhook/prospecto\n{ "canal": "whatsapp",\n  "de": "+57 3•• ••• 4821",\n  "texto": "Hola, quiero agendar..." }'},
+    {tag:'Paso 2',title:'Normalizar',sub:'Un solo formato',node:'Set + Code',
+      what:'Limpia el texto, separa nombre y teléfono, quita duplicados y agrega la fecha de entrada. Un prospecto que escribe dos veces no se registra dos veces.',
+      inp:'Evento de cada canal, con campos distintos',out:'Objeto estándar de prospecto',
+      code:'{ "nombre": "Laura M.",\n  "canal": "WhatsApp",\n  "texto": "...",\n  "recibido": "2026-11-12T18:41" }'},
+    {tag:'Paso 3',title:'Clasificar con IA',sub:'Intención y puntaje',node:'AI Agent / HTTP Request',
+      what:'El modelo lee el mensaje y devuelve intención, urgencia, señales de compra y un puntaje de 0 a 100, siempre en JSON.',
+      inp:'Objeto de prospecto',out:'Intención, puntaje y razones',
+      code:'{ "intencion": "agendar_cita",\n  "puntaje": 85,\n  "razones": ["pide cupo", "pregunta precio"] }'},
+    {tag:'Paso 4',title:'Enrutar',sub:'Caliente, tibio, frío',node:'Switch',
+      what:'Una regla simple decide el camino: 70 o más es caliente, de 40 a 69 es tibio y menos de 40 es frío.',
+      inp:'Puntaje',out:'Una de tres ramas',
+      code:'if puntaje >= 70 → caliente\nelse if puntaje >= 40 → tibio\nelse → frío'},
+    {tag:'Paso 5',title:'Registrar y avisar',sub:'CRM y asesor',node:'Google Sheets + Slack / WhatsApp',
+      what:'Guarda el prospecto en el CRM, responde al instante y avisa al asesor solo cuando el prospecto es caliente.',
+      inp:'Prospecto clasificado',out:'Fila en CRM, respuesta enviada, aviso al asesor',
+      code:'Sheets.appendRow(prospecto)\nWhatsApp.send(respuesta)\nif caliente: notificar(asesor)'},
+    {tag:'Paso 6',title:'Seguimiento',sub:'Esperas programadas',node:'Wait + IF',
+      what:'Espera 1, 3 y 7 días según la rama. Si el prospecto responde o agenda, el flujo detiene los recordatorios.',
+      inp:'Estado del prospecto',out:'Mensajes de seguimiento o cierre',
+      code:'Wait 1 día → ¿respondió?\n  no → recordatorio\nWait 3 días → ¿agendó?\n  no → última oferta'}
+  ];
+  var arrow = '<svg viewBox="0 0 22 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M1 6h19M15 1l5 5-5 5"/></svg>';
+  var flow = $('flow'), nodes = [];
+  steps.forEach(function(s,i){
+    var b = document.createElement('button');
+    b.type='button'; b.className='node'; b.setAttribute('aria-pressed','false');
+    b.innerHTML = '<span class="n-tag">'+s.tag+'</span><strong>'+s.title+'</strong><small>'+s.sub+'</small>';
+    b.addEventListener('click',function(){showStep(i)});
+    flow.appendChild(b); nodes.push(b);
+    if(i<steps.length-1){var l=document.createElement('div');l.className='link';l.innerHTML=arrow;flow.appendChild(l)}
+  });
+  function showStep(i){
+    nodes.forEach(function(n,j){n.setAttribute('aria-pressed', j===i?'true':'false')});
+    var s = steps[i];
+    $('detail').innerHTML =
+      '<div><span class="eyebrow">'+s.tag+' · nodo n8n</span><h3>'+s.title+' <span style="color:var(--accent)">/ '+esc(s.node)+'</span></h3><p style="margin-top:8px">'+s.what+'</p>'+
+      '<div class="kv" style="margin-top:14px"><div><span class="k">Entra</span>'+s.inp+'</div><div><span class="k">Sale</span>'+s.out+'</div></div></div>'+
+      '<pre class="code">'+esc(s.code)+'</pre>';
+  }
+  showStep(0);
+
+  /* ---------- Classification (simulated rules mirroring the prompt) ---------- */
+  var rules = [
+    {re:/agendar|cita|reservar|reserva|separar|visitar|visita/i, pts:22, tag:'pide agendar o reservar'},
+    {re:/hoy|mañana|esta semana|este fin|sábado|domingo|urgente|ya mismo|lo antes/i, pts:18, tag:'tiene urgencia de tiempo'},
+    {re:/precio|cuánto|cuanto|costo|cotiz|valor|tarifa/i, pts:14, tag:'pregunta por precio'},
+    {re:/presupuesto|millones|\$\s?\d|\d+\s?(mil|k|personas|invitados)/i, pts:16, tag:'menciona presupuesto o cantidad'},
+    {re:/cupo|disponib|horario|apartamento|evento|personas/i, pts:10, tag:'consulta disponibilidad'},
+    {re:/información|informacion|servicios|más info|mas info|conocer/i, pts:4, tag:'pide información general'},
+    {re:/solo quer|curios|mirando|por ahora no|más adelante|mas adelante|tal vez/i, pts:-14, tag:'sin intención clara de compra'}
+  ];
+  function classify(text){
+    var score = 22, reasons = [];
+    rules.forEach(function(r){ if(r.re.test(text)){ score += r.pts; reasons.push(r.tag) }});
+    if(text.trim().length > 60){ score += 6; reasons.push('mensaje con detalle') }
+    score = Math.max(5, Math.min(98, score));
+    var intent = /agendar|cita|reservar|reserva|separar|visit/i.test(text) ? 'agendar_cita'
+      : /precio|cuánto|cuanto|costo|cotiz|valor|tarifa|presupuesto/i.test(text) ? 'pedir_cotizacion' : 'pedir_informacion';
+    var cat = score>=70 ? 'caliente' : score>=40 ? 'tibio' : 'frio';
+    if(!reasons.length) reasons.push('mensaje corto, sin señales claras');
+    return {score:score,intent:intent,cat:cat,reasons:reasons};
+  }
+  var intentLabel = {agendar_cita:'Agendar cita',pedir_cotizacion:'Pedir cotización',pedir_informacion:'Pedir información'};
+  var catLabel = {caliente:'Caliente',tibio:'Tibio',frio:'Frío'};
+  var catClass = {caliente:'b-hot',tibio:'b-warm',frio:'b-cold'};
+  var actions = {
+    caliente:'Llamar en 5 min y enviar enlace de agenda',
+    tibio:'Seguimiento automático a 24 h y 72 h',
+    frio:'Secuencia informativa durante 7 días'
+  };
+  function reply(name,vertical,c){
+    var first = name.split(' ')[0] || 'hola';
+    var biz = {'Clínica estética':'la clínica','Inmobiliaria':'la inmobiliaria','Restaurante':'el restaurante'}[vertical]||'nuestro equipo';
+    if(c.cat==='caliente') return 'Hola '+first+', gracias por escribir a '+biz+'. Tenemos espacio esta semana. ¿Prefieres mañana en la mañana o en la tarde? Un asesor te confirma en unos minutos.';
+    if(c.cat==='tibio') return 'Hola '+first+', gracias por tu interés. Te comparto la información y los valores. Si quieres, te reservo un horario para resolver tus dudas sin compromiso.';
+    return 'Hola '+first+', gracias por escribir a '+biz+'. Te dejo un resumen de lo que ofrecemos. Cuando quieras avanzar, aquí estaremos.';
+  }
+  function followups(cat){
+    if(cat==='caliente') return [['+5 min','Aviso al asesor con el resumen del mensaje'],['+2 h','Si no hay respuesta, recordatorio con horarios libres'],['+1 día','Último intento por llamada o WhatsApp']];
+    if(cat==='tibio') return [['+1 día','Mensaje con testimonios y valores'],['+3 días','Pregunta si quiere reservar una cita'],['+7 días','Cierre amable y paso a seguimiento mensual']];
+    return [['+1 día','Correo o mensaje con guía informativa'],['+4 días','Contenido de valor sobre el servicio'],['+7 días','Invitación suave a conversar']];
+  }
+
+  /* ---------- Leads ---------- */
+  var leads = [
+    {n:'Laura M.',ch:'WhatsApp',v:'Clínica estética',i:'agendar_cita',s:88,c:'caliente'},
+    {n:'Andrés R.',ch:'Instagram',v:'Inmobiliaria',i:'pedir_cotizacion',s:74,c:'caliente'},
+    {n:'Camila P.',ch:'Formulario web',v:'Restaurante',i:'agendar_cita',s:81,c:'caliente'},
+    {n:'Mateo G.',ch:'Facebook',v:'Clínica estética',i:'pedir_cotizacion',s:52,c:'tibio'},
+    {n:'Daniela V.',ch:'Correo',v:'Inmobiliaria',i:'pedir_informacion',s:46,c:'tibio'},
+    {n:'Jorge T.',ch:'WhatsApp',v:'Restaurante',i:'pedir_informacion',s:18,c:'frio'}
+  ];
+  var filter = 'todos', lastNew = -1;
+  function renderPanel(){
+    var cnt = {caliente:0,tibio:0,frio:0};
+    leads.forEach(function(l){cnt[l.c]++});
+    $('summary').innerHTML =
+      '<div class="sum"><b>'+leads.length+'</b><span>Prospectos registrados</span></div>'+
+      '<div class="sum"><b style="color:var(--hot)">'+cnt.caliente+'</b><span>Calientes</span></div>'+
+      '<div class="sum"><b style="color:var(--warm)">'+cnt.tibio+'</b><span>Tibios</span></div>'+
+      '<div class="sum"><b style="color:var(--cold)">'+cnt.frio+'</b><span>Fríos</span></div>';
+    var f = [['todos','Todos'],['caliente','Calientes'],['tibio','Tibios'],['frio','Fríos']];
+    $('filters').innerHTML = '';
+    f.forEach(function(x){
+      var b=document.createElement('button');b.type='button';b.className='btn';b.textContent=x[1];
+      b.setAttribute('aria-pressed',filter===x[0]?'true':'false');
+      b.addEventListener('click',function(){filter=x[0];renderPanel()});
+      $('filters').appendChild(b);
+    });
+    var html='';
+    leads.forEach(function(l,idx){
+      if(filter!=='todos' && l.c!==filter) return;
+      html += '<tr'+(idx===lastNew?' class="new"':'')+'><td><b>'+esc(l.n)+'</b><div class="sub">'+esc(l.v)+'</div></td><td>'+esc(l.ch)+'</td><td>'+intentLabel[l.i]+'</td><td class="num">'+l.s+'</td><td><span class="badge '+catClass[l.c]+'">'+catLabel[l.c]+'</span></td><td>'+actions[l.c]+'</td></tr>';
+    });
+    $('rows').innerHTML = html || '<tr><td colspan="6" class="sub">No hay prospectos en esta prioridad.</td></tr>';
+  }
+  renderPanel();
+
+  /* ---------- Demo ---------- */
+  var samples = [
+    {l:'Clínica: agendar limpieza',n:'Laura M.',ch:'WhatsApp',v:'Clínica estética',t:'Hola, quiero agendar una limpieza facial para esta semana. ¿Cuánto cuesta y tienen cupo mañana?'},
+    {l:'Inmobiliaria: precios',n:'Andrés R.',ch:'Instagram',v:'Inmobiliaria',t:'Estoy mirando apartamentos en Bocagrande. ¿Me pueden enviar precios? Mi presupuesto es hasta 450 millones.'},
+    {l:'Restaurante: evento',n:'Camila P.',ch:'Formulario web',v:'Restaurante',t:'Necesito reservar para 25 personas el sábado. Es un evento de empresa, ¿qué opciones de menú tienen?'},
+    {l:'Solo curioseando',n:'Jorge T.',ch:'WhatsApp',v:'Restaurante',t:'Hola, solo quería saber qué servicios ofrecen, estoy curioseando.'}
+  ];
+  samples.forEach(function(s){
+    var b=document.createElement('button');b.type='button';b.className='btn';b.textContent=s.l;
+    b.addEventListener('click',function(){$('name').value=s.n;$('channel').value=s.ch;$('vertical').value=s.v;$('msg').value=s.t});
+    $('samples').appendChild(b);
+  });
+  var running=false;
+  function wait(ms){return new Promise(function(r){setTimeout(r,reduce?0:ms)})}
+  function nowStr(){var d=new Date();return ('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2)}
+  $('run').addEventListener('click',async function(){
+    if(running) return;
+    var text=$('msg').value.trim();
+    if(!text){$('out').innerHTML='<p class="empty">Escribe un mensaje para procesarlo.</p>';return}
+    running=true; $('run').textContent='Procesando…';
+    var name=$('name').value.trim()||'Prospecto nuevo', ch=$('channel').value, vert=$('vertical').value;
+    nodes.forEach(function(n){n.classList.remove('run','done')});
+    $('out').innerHTML='<p class="empty">Recorriendo el flujo…</p>';
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].classList.add('run'); showStep(i);
+      await wait(420);
+      nodes[i].classList.remove('run'); nodes[i].classList.add('done');
+    }
+    var c=classify(text), fu=followups(c.cat);
+    leads.unshift({n:name,ch:ch,v:vert,i:c.intent,s:c.score,c:c.cat}); lastNew=0; filter='todos'; renderPanel();
+    $('out').innerHTML =
+      '<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span class="badge '+catClass[c.cat]+'">'+catLabel[c.cat]+'</span><b>'+esc(intentLabel[c.intent])+'</b><span class="note">'+esc(name)+' · '+esc(ch)+'</span></div>'+
+      '<div class="score"><span class="lbl">Puntaje</span><div class="bar"><i id="barfill"></i></div><b>'+c.score+'</b></div>'+
+      '<div class="reasons">'+c.reasons.map(function(r){return '<span>'+esc(r)+'</span>'}).join('')+'</div>'+
+      '<div class="reply"><span class="lbl k">Respuesta automática enviada a las '+nowStr()+'</span>'+esc(reply(name,vert,c))+'</div>'+
+      '<div><span class="lbl">Seguimiento programado</span><ul class="timeline" style="margin-top:8px">'+fu.map(function(x){return '<li><time>'+x[0]+'</time><span>'+x[1]+'</span></li>'}).join('')+'</ul></div>'+
+      '<p class="note">Registrado en el panel de prospectos. Las reglas de esta demo imitan el criterio del prompt de IA.</p>';
+    requestAnimationFrame(function(){var f=$('barfill');if(f)f.style.width=c.score+'%'});
+    $('run').textContent='Procesar con el flujo'; running=false;
+  });
+
+  /* ---------- Prompt + JSON ---------- */
+  var promptText =
+'Eres un asistente comercial de {nombre_negocio}, un negocio de tipo {tipo_negocio}.\n'+
+'Analiza el mensaje de un prospecto y responde SOLO con un JSON válido.\n\n'+
+'Criterios de puntaje (0 a 100):\n'+
+'- Pide agendar, reservar o separar: +22\n'+
+'- Menciona una fecha o urgencia: +18\n'+
+'- Menciona presupuesto o cantidad: +16\n'+
+'- Pregunta por precio: +14\n'+
+'- Solo pide información general: +4\n'+
+'- Dice que solo está mirando: -14\n\n'+
+'Campos del JSON:\n'+
+'intencion: agendar_cita | pedir_cotizacion | pedir_informacion\n'+
+'puntaje: número entero\n'+
+'razones: lista de 1 a 3 frases cortas\n'+
+'respuesta: mensaje de máximo 40 palabras, tono cercano\n\n'+
+'Mensaje del prospecto:\n{texto}';
+  var jsonText =
+'{\n'+
+'  "intencion": "agendar_cita",\n'+
+'  "puntaje": 85,\n'+
+'  "razones": [\n'+
+'    "pide cupo para mañana",\n'+
+'    "pregunta por el precio"\n'+
+'  ],\n'+
+'  "respuesta": "Hola Laura, tenemos espacio mañana. ¿Prefieres mañana o tarde?"\n'+
+'}';
+  $('prompt').textContent=promptText; $('json').textContent=jsonText;
+  document.querySelectorAll('[data-copy]').forEach(function(b){
+    b.addEventListener('click',function(){
+      var el=$(b.getAttribute('data-copy')), txt=el.textContent, old=b.textContent;
+      function ok(){b.textContent='Copiado';setTimeout(function(){b.textContent=old},1500)}
+      function fallback(){var r=document.createRange();r.selectNodeContents(el);var s=window.getSelection();s.removeAllRanges();s.addRange(r);b.textContent='Texto seleccionado';setTimeout(function(){b.textContent=old},1800)}
+      try{navigator.clipboard.writeText(txt).then(ok,fallback)}catch(e){fallback()}
+    });
+  });
+
+  /* ---------- Calculator ---------- */
+  function calc(){
+    var a=+$('c1').value,b=+$('c2').value,p=+$('c3').value,l=+$('c4').value;
+    $('v1').textContent=a; $('v2').textContent=b+' min'; $('v3').textContent=p+' %'; $('v4').textContent=l+' %';
+    var hours=Math.round(a*b*(p/100)/60);
+    var rec=Math.round(a*(l/100)*0.5);
+    $('hours').textContent=hours+' h';
+    $('recover').innerHTML='Con respuesta inmediata se podrían rescatar unos <b>'+rec+' prospectos al mes</b> que hoy se enfrían antes de recibir respuesta.';
+  }
+  ['c1','c2','c3','c4'].forEach(function(id){$(id).addEventListener('input',calc)});
+  calc();
+})();
+</script>
+
+</body></html>
