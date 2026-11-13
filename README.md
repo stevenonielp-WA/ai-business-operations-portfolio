@@ -1,16 +1,24 @@
-# Portafolio | AI & Business Operations
+# AI & Business Operations Portfolio
 
-Proyectos demostrativos sobre automatización, operaciones comerciales y evaluación de agentes de IA.
+Interactive prototypes for workflow automation, CRM visibility, operations analytics, and conversational AI quality evaluation.
 
-> Los escenarios, nombres y métricas incluidos en las demos y en la hoja de evaluación son ficticios y se usan únicamente para mostrar el método. No representan datos ni resultados de clientes.
+## Projects
 
-## Proyectos
+- [AI Business Automation](AI%20Business%20Automation.html) — an interactive simulation of a proposed n8n inquiry and follow-up workflow. It does not connect to live channels or services.
+- [CRM Management System](CRM%20Management%20System.html) — a browser-based sales pipeline demo. Changes stay in the local browser.
+- [Operations Dashboard](Panel%20de%20Operaciones.html) — a conceptual dashboard for workflow, SLA, team efficiency, and delivery history.
+- [AI Evaluation System](https://docs.google.com/spreadsheets/d/1X-bRoGeFgi7K4wuHBk6u63y8tGw9JI_Sc14e_a1yzGg/edit?usp=sharing) — an editable rubric and side-by-side conversational agent evaluation workbook.
 
-- [AI Business Automation](AI%20Business%20Automation.html): demo interactiva de un flujo para clasificar mensajes, organizar prospectos y sugerir el siguiente paso para el equipo.
-- [CRM Management System](CRM%20Management%20System.html): panel interactivo para visualizar oportunidades, etapas del embudo y seguimientos.
-- [AI Evaluation System](https://docs.google.com/spreadsheets/d/1X-bRoGeFgi7K4wuHBk6u63y8tGw9JI_Sc14e_a1yzGg/edit?usp=sharing): hoja de evaluación con rúbrica ponderada, criterios de seguridad y comparación entre dos versiones de un agente conversacional. Las calificaciones del ejemplo son manuales e ilustrativas.
-- [Panel de Operaciones](Panel%20de%20Operaciones.html): dashboard interactivo para analizar el flujo de trabajo, SLA, eficiencia por área, actividad y rendimiento de equipo. Las cifras y perfiles son de demostración.
+## Demo data
 
-## Vista previa local
+All names, profiles, scenarios, and figures shown in the demos are fictional. The evaluation workbook uses 20 manually scored example scenarios. Those results are illustrative and do not represent client work or production validation.
 
-Abre `index.html` en un navegador para ver la página principal y navegar a cada demo.
+---
+
+# Portafolio de AI & Business Operations
+
+Prototipos interactivos de automatización, visibilidad comercial, analítica operativa y evaluación de calidad de agentes conversacionales.
+
+Todos los nombres, perfiles, escenarios y cifras son ficticios. La hoja de evaluación contiene 20 casos de ejemplo calificados manualmente; sus resultados son ilustrativos y no representan trabajo con clientes ni validación en producción.
+
+Abre `index.html` para ver el portafolio bilingüe.
