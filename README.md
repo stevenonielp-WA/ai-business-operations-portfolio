@@ -1,4 +1,7 @@
-# AI & Business Operations Portfolio
+# Steven Oniel Polo
+
+## AI & Business Operations Specialist
+## Especialista en IA y Operaciones de Negocio
 
 Interactive prototypes for workflow automation, CRM visibility, operations analytics, and conversational AI quality evaluation.
 
@@ -15,7 +18,9 @@ All names, profiles, scenarios, and figures shown in the demos are fictional. Th
 
 ---
 
-# Portafolio de AI & Business Operations
+# Portafolio de Steven Oniel Polo
+
+## Especialista en IA y Operaciones de Negocio
 
 Prototipos interactivos de automatización, visibilidad comercial, analítica operativa y evaluación de calidad de agentes conversacionales.
 
