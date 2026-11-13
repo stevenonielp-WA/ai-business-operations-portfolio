@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Portafolio de demos interactivas sobre inteligencia artificial, automatización y operaciones de negocio.">
+  <meta name="description" content="Portafolio de Steven Oniel Polo, especialista en IA y operaciones de negocio. Prototipos de automatización, CRM, operaciones y evaluación de IA.">
   <meta name="theme-color" content="#f5f7f8">
-  <meta property="og:title" content="AI & Business Operations | Portfolio">
+  <meta property="og:title" content="Steven Oniel Polo | AI & Business Operations Specialist">
   <meta property="og:description" content="Interactive prototypes for AI workflows, CRM, operations analytics, and conversational AI evaluation.">
-  <title>AI & Business Operations | Portafolio</title>
+  <title>Steven Oniel Polo | AI & Business Operations Specialist</title>
   <style>
     :root{color-scheme:light;--ink:#12212b;--muted:#586c77;--paper:#f5f7f8;--card:#fff;--line:#dce4e6;--accent:#126e62;--accent-strong:#0c544c;--accent-soft:#e5f3f0;--shadow:0 18px 50px rgba(18,33,43,.07)}
     *{box-sizing:border-box}
@@ -16,7 +16,8 @@
     a{color:inherit}
     .page{width:min(1080px,calc(100% - 40px));margin:0 auto}
     .topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line)}
-    .brand{font-size:.85rem;font-weight:750;letter-spacing:.02em}
+    .brand{display:flex;flex-direction:column;gap:2px;font-size:.75rem;font-weight:800;line-height:1.2;letter-spacing:.025em}
+    .brand-es{color:var(--muted);font-size:.7rem;font-weight:600;letter-spacing:0}
     .actions{display:flex;align-items:center;gap:10px}
     .nav-link{color:var(--muted);font-size:.9rem;font-weight:650;text-decoration:none}
     .nav-link:hover{color:var(--accent)}
@@ -57,7 +58,7 @@
 <body>
   <div class="page">
     <nav class="topbar" aria-label="Navegación principal">
-      <span class="brand">AI &amp; BUSINESS OPERATIONS</span>
+      <span class="brand"><span>AI &amp; BUSINESS OPERATIONS SPECIALIST</span><span class="brand-es">Especialista en IA y Operaciones de Negocio</span></span>
       <div class="actions">
         <a class="nav-link" href="#projects" id="navProjects">Proyectos</a>
         <button class="language" id="languageToggle" type="button" aria-label="Switch to English" aria-pressed="false">EN</button>
@@ -65,7 +66,7 @@
     </nav>
 
     <header class="hero">
-      <div class="eyebrow" id="eyebrow">Portafolio profesional</div>
+      <div class="eyebrow" id="eyebrow">STEVEN ONIEL POLO</div>
       <h1 id="heroTitle">IA y operaciones, conectadas con claridad.</h1>
       <p class="lead" id="heroIntro">Prototipos prácticos para convertir tareas repetitivas y conversaciones con clientes en flujos más claros, medibles y fáciles de operar.</p>
       <div class="hero-actions">
@@ -131,14 +132,14 @@
       <p class="notice"><strong id="noticeLabel">Sobre estas demos:</strong> <span id="noticeText">son prototipos interactivos con información sintética. No representan clientes, resultados de producción ni sistemas conectados.</span></p>
     </main>
 
-    <footer><span id="footerLeft">Portafolio de proyectos · AI &amp; Business Operations</span><span id="footerRight">Preparado para revisión profesional</span></footer>
+    <footer><span id="footerLeft">Steven Oniel Polo · Portafolio de proyectos</span><span id="footerRight">Preparado para revisión profesional</span></footer>
   </div>
 
   <script>
     const copy = {
       es: {
-        title: "AI & Business Operations | Portafolio",
-        navProjects: "Proyectos", eyebrow: "Portafolio profesional",
+        title: "Steven Oniel Polo | Especialista en IA y Operaciones de Negocio",
+        navProjects: "Proyectos", eyebrow: "STEVEN ONIEL POLO",
         heroTitle: "IA y operaciones, conectadas con claridad.",
         heroIntro: "Prototipos prácticos para convertir tareas repetitivas y conversaciones con clientes en flujos más claros, medibles y fáciles de operar.",
         primaryCta: "Explorar proyectos", secondaryCta: "Ver sistema de evaluación",
@@ -157,11 +158,11 @@
         cap1: "Automatización de flujos", cap2: "Gestión de prospectos y CRM",
         cap3: "Indicadores y seguimiento operativo", cap4: "Evaluación de calidad y seguridad de IA",
         noticeLabel: "Sobre estas demos:", noticeText: "son prototipos interactivos con información sintética. No representan clientes, resultados de producción ni sistemas conectados.",
-        footerLeft: "Portafolio de proyectos · AI & Business Operations", footerRight: "Preparado para revisión profesional"
+        footerLeft: "Steven Oniel Polo · Portafolio de proyectos", footerRight: "Preparado para revisión profesional"
       },
       en: {
-        title: "AI & Business Operations | Portfolio",
-        navProjects: "Projects", eyebrow: "Professional portfolio",
+        title: "Steven Oniel Polo | AI & Business Operations Specialist",
+        navProjects: "Projects", eyebrow: "STEVEN ONIEL POLO",
         heroTitle: "AI and operations, designed to work together.",
         heroIntro: "Practical prototypes for turning repetitive work and customer conversations into clearer, measurable, easier-to-run workflows.",
         primaryCta: "Explore projects", secondaryCta: "View evaluation system",
@@ -180,7 +181,7 @@
         cap1: "Workflow automation", cap2: "Lead management and CRM",
         cap3: "Operational metrics and follow-up", cap4: "AI quality and safety evaluation",
         noticeLabel: "About these demos:", noticeText: "they are interactive prototypes using synthetic information. They do not represent clients, production outcomes, or connected systems.",
-        footerLeft: "Project portfolio · AI & Business Operations", footerRight: "Prepared for professional review"
+        footerLeft: "Steven Oniel Polo · Project portfolio", footerRight: "Prepared for professional review"
       }
     };
     const languageToggle = document.getElementById("languageToggle");
